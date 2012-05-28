@@ -1,0 +1,48 @@
+<html>
+<head>
+    <title>instinctiveScroll demo</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="instinctiveScroll.js"></script>
+    <script>
+    $(document).ready(function(){
+        $("#myContainer").instinctiveScroll();
+    });
+    </script>
+    <style>
+
+        #myContainer {
+            width: 500px;
+            border: 1px solid black;
+        }
+        #myContent {
+            width:1000px;
+            background: gray;
+        }
+        .block {
+            width: 150px;
+            float:left;
+            height:200px;
+            background:red;
+            color:white;
+            padding: 3px;
+            margin: 3px;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div id="myContainer">
+        <div id="myContent">
+            <div class="block">Wide Content Here</div>
+            <div class="block">Wide Content Here</div>
+            <div class="block">Wide Content Here</div>
+            <div class="block">Wide Content Here</div>
+            <div class="block">Wide Content Here</div>
+            <div class="block">Wide Content Here</div>
+        </div>
+    </div>
+
+</body>
+</html>
