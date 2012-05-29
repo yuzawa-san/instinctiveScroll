@@ -137,7 +137,11 @@
         });
         
         // change scroller and release scrolling when exiting the element
-        $elem.mouseout(function(){
+        $elem.mouseleave(function(){
+            if(inBuf && opts.stopCallback){
+                inBuf=false;
+                opts.stopCallback();
+            }
             $elem.css("cursor","");
             clearInterval(hScrollTimer);
             hScrollTimer=null;

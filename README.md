@@ -24,7 +24,8 @@ Similar to mousemove implementation of [Mootools Scroller](http://demos111.mooto
 | `scrollerColor`            | int[3]               | `[100,100,100]`   | A triple of RGB color values 0-255 |
 | `scrollerOpacity`          | float                | `0.8`             | An alpha parameter from 0 to 1 |
 | `scrollerInactiveOpacity`  | float                | `0.3`             | An alpha parameter from 0 to 1 |
-
+| `startCallback`            | function             | `null`            | Callback function fired when scroll begins |
+| `stopCallback`             | function             | `null`            | Callback function fired when scroll stops |
 
 ## Usage
 
