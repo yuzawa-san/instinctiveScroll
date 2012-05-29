@@ -23,6 +23,7 @@
         var hScrollDelta=0;
         var entered=true;
         var scrollerRatio=itemWidth/innerWidth;
+        var inBuf=false;
         
         // options
         var opts = {
@@ -34,6 +35,8 @@
             scrollerColor: [100,100,100],
             scrollerOpacity: 0.8,
             scrollerInactiveOpacity: 0.3,
+            startCallback: null,
+            stopCallback: null,
         };
         
         // overwrite defaults with user opts
@@ -82,6 +85,7 @@
                 scroller.css('left',est+"px");
             }
             if(calc==(innerWidth-itemWidth) || calc==0){ // stop at ends of content
+                if(opts.stopCallback) opts.stopCallback();
                 $elem.css("cursor","");
                 clearInterval(hScrollTimer);
                 hScrollTimer=null;
@@ -102,6 +106,7 @@
                     if(hScrollTimer==null && orig!=(innerWidth-itemWidth) && entered){
                         $elem.css("cursor","e-resize");
                         hScrollTimer=setInterval(doScrollHorizontal,opts.interval);
+                        if(opts.startCallback) opts.startCallback(1);
                     }
                 }
                 if(leftBox){
@@ -109,9 +114,15 @@
                     if(hScrollTimer==null && orig !=0 && entered){
                         $elem.css("cursor","w-resize");
                         hScrollTimer=setInterval(doScrollHorizontal,opts.interval);
+                        if(opts.startCallback) opts.startCallback(-1);
                     }
                 }
+                inBuf=true;
             }else{
+                if(inBuf && opts.stopCallback){
+                    inBuf=false;
+                    opts.stopCallback();
+                }
                 entered=true;
                 $elem.css("cursor","");
                 clearInterval(hScrollTimer);
