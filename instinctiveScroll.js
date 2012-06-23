@@ -1,5 +1,5 @@
 /*
-    instinctiveScroll v1.1
+    instinctiveScroll v1.2
     James Yuzawa (http://www.jyuzawa.com/)
     released under MIT License
 */
@@ -24,6 +24,7 @@
         var entered=true;
         var scrollerRatio=itemWidth/innerWidth;
         var inBuf=false;
+        var mouseWheelTimer=null;
         
         // options
         var opts = {
@@ -37,6 +38,8 @@
             scrollerInactiveOpacity: 0.3,
             startCallback: null,
             stopCallback: null,
+            handleMouseScroll: true,
+            iOSDirection: true,
         };
         
         // overwrite defaults with user opts
@@ -75,8 +78,13 @@
         
         // function called at intervals to run scroll
         var doScrollHorizontal = function(){
+            execScroll(hScrollDelta);
+        };
+        
+        // do scroll, called from mousemove or mousewheel
+        var execScroll = function(delta){
             orig=$elem.scrollLeft();
-            calc=orig+hScrollDelta;
+            calc=orig+delta;
             if(calc<0) calc=0; // fix left
             if(calc>(innerWidth-itemWidth)) calc=(innerWidth-itemWidth); // fix right
             $elem.scrollLeft(calc);
@@ -147,6 +155,29 @@
             hScrollTimer=null;
             if(opts.scroller) scroller.css("background",inactiveScrollerColor);
         });
+        
+        // handle trackpad or mousewheel events
+        if(opts.handleMouseScroll){
+            // run wheel event when scrolling is 'done'
+            doWheelEvent=function(prevWheel){
+                if(opts.iOSDirection) execScroll(prevWheel);
+                else execScroll(-prevWheel);
+                clearTimeout(mouseWheelTimer);
+                mouseWheelTimer=setTimeout(function() {
+                    if(opts.stopCallback) opts.stopCallback();
+                }, 250);
+            };
+            
+            // webkit, etc
+            $elem.bind('mousewheel', function(e){
+                doWheelEvent(e.originalEvent.wheelDeltaX);
+            });
+            
+            // for picky mozilla
+            elem.addEventListener('MozMousePixelScroll', function(e) {
+                if(e.axis==e.HORIZONTAL_AXIS) doWheelEvent(e.detail);
+            });
+        }
         
         // update metrics when window resizes in case element's frame changed
         $(window).resize(function() {

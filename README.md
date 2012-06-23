@@ -1,6 +1,6 @@
 # intuitiveScroll
 
-*version 1.1*
+*version 1.2*
 
 James Yuzawa: 
 [http://www.jyuzawa.com](http://www.jyuzawa.com/)
@@ -11,6 +11,7 @@ A jQuery plugin for horizontal scrolling using mouse location in an element.
 Moving mouse to the right of the element will make it scroll to the right.
 Moving mouse to the left of the element will make it scroll to the left.
 Similar to mousemove implementation of [Mootools Scroller](http://demos111.mootools.net/Scroller).
+Extends a easy and instinctive scrolling to client with mice who lack track pads or mousewheel which allow simpler horizontal scrolling.
 
 ## Options
 
@@ -26,6 +27,8 @@ Similar to mousemove implementation of [Mootools Scroller](http://demos111.mooto
 | `scrollerInactiveOpacity`  | float                | `0.3`             | An alpha parameter from 0 to 1 |
 | `startCallback`            | function             | `null`            | Callback function fired when scroll begins |
 | `stopCallback`             | function             | `null`            | Callback function fired when scroll stops |
+| `handleMouseScroll`        | boolean              | `true`            | Whether to allow user to user their trackpad or mouse wheel to scroll horizontally.
+| `iOSDirection`             | boolean              | `true`            | If `handleMouseScroll` is true: use iOS scrolling direction response (like in Mac OS X Lion).
 
 ## Usage
 
@@ -81,6 +84,7 @@ This usage demo is implemented in full in `demo.html`.
 * Window can be resized changing element size, scrolling still will work and scrollbar will properly be redrawn.
 * Cursor will indicated scrolling when mouse in the left/right buffer region of an element.
 * Speed increases quadratically (to `speed` parameter) as the mouse goes further into the buffer region.
+* Added `handleMouseScroll` parameter. 
 
 ## Todo
 
