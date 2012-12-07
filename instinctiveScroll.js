@@ -39,7 +39,7 @@
             startCallback: null,
             stopCallback: null,
             handleMouseScroll: true,
-            iOSDirection: true,
+            iOSDirection: true
         };
         
         // overwrite defaults with user opts
@@ -68,11 +68,14 @@
             "bottom": "0px",
             "left":"0px",
             "width":"30px",
-            "height":"8px",
+            "height":"8px"
         });
         if(opts.scroller){
-            if(scrollerRatio<=1) scroller.width(scrollerRatio*itemWidth);
-            else scroller.hide();
+            if(scrollerRatio<=1){
+                scroller.width(scrollerRatio*itemWidth);
+            }else{
+                scroller.hide();
+            }
             $elem.prepend(scroller);
         }
         
@@ -85,15 +88,21 @@
         var execScroll = function(delta){
             orig=$elem.scrollLeft();
             calc=orig+delta;
-            if(calc<0) calc=0; // fix left
-            if(calc>(innerWidth-itemWidth)) calc=(innerWidth-itemWidth); // fix right
+            if(calc<0){
+                calc=0; // fix left
+            }
+            if(calc>(innerWidth-itemWidth)){
+                calc=(innerWidth-itemWidth); // fix right
+            }
             $elem.scrollLeft(calc);
             if(opts.scroller){ // move scroller
                 est=calc+(calc/innerWidth)*(itemWidth-14);
                 scroller.css('left',est+"px");
             }
             if(calc==(innerWidth-itemWidth) || calc==0){ // stop at ends of content
-                if(opts.stopCallback) opts.stopCallback();
+                if(opts.stopCallback){
+                    opts.stopCallback();
+                }
                 $elem.css("cursor","");
                 clearInterval(hScrollTimer);
                 hScrollTimer=null;
@@ -111,18 +120,22 @@
             if(scrollerRatio<=1 && (rightBox || leftBox)){
                 if(rightBox){
                     hScrollDelta=Math.pow((1-((itemWidth-relX)/opts.buffer)),2)*opts.speed;
-                    if(hScrollTimer==null && orig!=(innerWidth-itemWidth) && entered){
+                    if(hScrollTimer===null && orig!=(innerWidth-itemWidth) && entered){
                         $elem.css("cursor","e-resize");
                         hScrollTimer=setInterval(doScrollHorizontal,opts.interval);
-                        if(opts.startCallback) opts.startCallback(1);
+                        if(opts.startCallback){
+                            opts.startCallback(1);
+                        }
                     }
                 }
                 if(leftBox){
                     hScrollDelta=Math.pow((1-(relX/opts.buffer)),2)*-opts.speed;
-                    if(hScrollTimer==null && orig !=0 && entered){
+                    if(hScrollTimer===null && orig !==0 && entered){
                         $elem.css("cursor","w-resize");
                         hScrollTimer=setInterval(doScrollHorizontal,opts.interval);
-                        if(opts.startCallback) opts.startCallback(-1);
+                        if(opts.startCallback){
+                            opts.startCallback(-1);
+                        }
                     }
                 }
                 inBuf=true;
@@ -140,8 +153,12 @@
         
         // change scroller and lock scrolling when entering the element
         $elem.mouseover(function(){
-            if(opts.scroller) scroller.css("background",activeScrollerColor);
-            if(opts.locking) entered=false;
+            if(opts.scroller){
+                scroller.css("background",activeScrollerColor);
+            }
+            if(opts.locking){
+                entered=false;
+            }
         });
         
         // change scroller and release scrolling when exiting the element
@@ -153,18 +170,25 @@
             $elem.css("cursor","");
             clearInterval(hScrollTimer);
             hScrollTimer=null;
-            if(opts.scroller) scroller.css("background",inactiveScrollerColor);
+            if(opts.scroller){
+                scroller.css("background",inactiveScrollerColor);
+            }
         });
         
         // handle trackpad or mousewheel events
         if(opts.handleMouseScroll){
             // run wheel event when scrolling is 'done'
             doWheelEvent=function(prevWheel){
-                if(opts.iOSDirection) execScroll(prevWheel);
-                else execScroll(-prevWheel);
+                if(opts.iOSDirection){
+                    execScroll(prevWheel);
+                }else{
+                    execScroll(-prevWheel);
+                }
                 clearTimeout(mouseWheelTimer);
                 mouseWheelTimer=setTimeout(function() {
-                    if(opts.stopCallback) opts.stopCallback();
+                    if(opts.stopCallback){
+                        opts.stopCallback();
+                    }
                 }, 250);
             };
             
@@ -175,7 +199,9 @@
             
             // for picky mozilla
             elem.addEventListener('MozMousePixelScroll', function(e) {
-                if(e.axis==e.HORIZONTAL_AXIS) doWheelEvent(e.detail);
+                if(e.axis==e.HORIZONTAL_AXIS){
+                    doWheelEvent(e.detail);
+                }
             });
         }
         
@@ -186,8 +212,11 @@
             scrollerRatio=itemWidth/innerWidth;
             if(opts.scroller){
                 scroller.width(scrollerRatio*itemWidth);
-                if(scrollerRatio<=1) scroller.show();
-                else scroller.hide();
+                if(scrollerRatio<=1){
+                    scroller.show();
+                }else{
+                    scroller.hide();
+                }
             }
         });
     };
